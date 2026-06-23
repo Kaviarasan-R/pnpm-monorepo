@@ -1,0 +1,18 @@
+{
+  "name": "@boilerplate/eslint-config",
+  "main": "./base.mjs",
+  "exports": {
+    "./base": "./base.mjs",
+    "./nest": "./nest.mjs",
+    "./next": "./next.mjs"
+  },
+  "dependencies": {
+    "@eslint/js": "^9.18.0",
+    "eslint": "^9.18.0",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.2",
+    "globals": "^17.0.0",
+    "eslint-config-next": "16.2.9",
+    "typescript-eslint": "^8.20.0"
+  }
+}

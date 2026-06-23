@@ -1,0 +1,27 @@
+{
+  "name": "@boilerplate/message-queues",
+  "main": "./dist/index.js",
+  "exports": {
+    ".": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "eslint \"src/**/*.ts\" && tsc --project tsconfig.json",
+    "lint": "eslint \"src/**/*.ts\" --fix"
+  },
+  "dependencies": {
+    "@bull-board/api": "^8.0.0",
+    "@bull-board/express": "^8.0.0",
+    "@bull-board/nestjs": "^8.0.0",
+    "@nestjs/bullmq": "^11.0.4",
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.4",
+    "bullmq": "^5.78.1",
+    "express-basic-auth": "^1.2.1"
+  },
+  "devDependencies": {
+    "@boilerplate/eslint-config": "workspace:*",
+    "eslint": "^9.18.0",
+    "globals": "^17.0.0",
+    "typescript": "^5.7.3"
+  }
+}

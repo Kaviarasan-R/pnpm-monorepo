@@ -1,0 +1,110 @@
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: boilerplate-pms-postgres
+    environment:
+      POSTGRES_USER: boilerplate
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: boilerplate_master
+
+    #   For at the time of migrations only:
+    #     ports:
+    #       - "5433:5432"   # use 5433 to avoid conflict with local postgres
+    #   Update local .env file:
+    #     DB_HOST=localhost
+    #     DB_PORT=5433
+    #   Run migrations for tenants & master:
+    #     pnpm migration:master:run
+    #   After migrations done, revert back to normal and compose.
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - boilerplate-pms
+
+  redis:
+    image: redis:7-alpine
+    container_name: boilerplate-pms-redis
+    volumes:
+      - redis_data:/data
+    networks:
+      - boilerplate-pms
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    image: boilerplate-pms-api:latest
+    container_name: boilerplate-pms-api
+    ports:
+      - '8000:8000'
+    env_file:
+      - .env
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USERNAME: boilerplate
+      DB_PASSWORD: root
+      DB_NAME: boilerplate_master
+      TENANT_DB_HOST: postgres
+      TENANT_DB_PORT: 5432
+      TENANT_DB_USERNAME: boilerplate
+      TENANT_DB_PASSWORD: root
+      TENANT_DB_NAME: boilerplate_tenant
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ''
+      REDIS_USERNAME: default
+      REDIS_TLS_ENABLED: false
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - boilerplate-pms
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: apps/worker/Dockerfile
+    image: boilerplate-pms-worker:latest
+    container_name: boilerplate-pms-worker
+    env_file:
+      - .env
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ''
+      REDIS_USERNAME: default
+      REDIS_TLS_ENABLED: false
+    depends_on:
+      - postgres
+      - redis
+    networks:
+      - boilerplate-pms
+    restart: unless-stopped
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+    image: boilerplate-pms-web:latest
+    container_name: boilerplate-pms-web
+    ports:
+      - '3000:3000'
+    env_file:
+      - apps/web/.env
+    depends_on:
+      - api
+      - postgres
+      - redis
+    networks:
+      - boilerplate-pms
+    restart: unless-stopped
+
+networks:
+  boilerplate-pms:
+
+volumes:
+  postgres_data:
+  redis_data:

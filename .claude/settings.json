@@ -1,0 +1,29 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm run dev)",
+      "Bash(pnpm run build)",
+      "Bash(pnpm run start)",
+      "Bash(pnpm run lint)",
+      "Bash(pnpm run generate:lib)"
+    ],
+    "deny": ["Bash(git push *)", "Bash(pnpm run migration:*)"]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "pnpm prettier --write \"$CLAUDE_FILE_PATH\" && pnpm eslint --fix \"$CLAUDE_FILE_PATH\" 2>/dev/null; true",
+            "statusMessage": "Formatting & linting..."
+          }
+        ]
+      }
+    ]
+  },
+  "model": "claude-sonnet-4-6",
+  "effortLevel": "high",
+  "outputStyle": "Proactive"
+}

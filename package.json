@@ -1,0 +1,30 @@
+{
+  "name": "boilerplate",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "pnpm -r --parallel --stream run dev",
+    "build": "pnpm -r --parallel run build",
+    "start": "pnpm -r --parallel --stream run start",
+    "lint": "pnpm -r --parallel run lint",
+    "generate:lib": "node scripts/generate-lib.js",
+    "migration:create": "typeorm-ts-node-commonjs migration:create",
+    "migration:master:generate": "typeorm-ts-node-commonjs migration:generate -d migrations/master.datasource.ts",
+    "migration:master:run": "typeorm-ts-node-commonjs migration:run -d migrations/master.datasource.ts",
+    "migration:master:revert": "typeorm-ts-node-commonjs migration:revert -d migrations/master.datasource.ts",
+    "migration:tenant:generate": "typeorm-ts-node-commonjs migration:generate -d migrations/tenant.datasource.ts",
+    "migration:tenant:run": "typeorm-ts-node-commonjs migration:run -d ./migrations/tenant.datasource.ts",
+    "migration:tenant:revert": "typeorm-ts-node-commonjs migration:revert -d ./migrations/tenant.datasource.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "packageManager": "pnpm@11.6.0",
+  "devDependencies": {
+    "@boilerplate/data-sources": "workspace:*",
+    "@types/node": "^25.9.3",
+    "dotenv": "^17.4.2",
+    "pg": "^8.21.0",
+    "ts-node": "^10.9.2",
+    "typeorm": "^1.0.0"
+  }
+}

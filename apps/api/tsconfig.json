@@ -1,0 +1,17 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@boilerplate/data-sources": ["../../libs/data-sources/src"],
+      "@boilerplate/message-queues": ["../../libs/message-queues/src"]
+    }
+  },
+  "ts-node": {
+    "swc": true,
+    "compilerOptions": {
+      "module": "commonjs"
+    }
+  }
+}
