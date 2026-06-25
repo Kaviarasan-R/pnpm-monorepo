@@ -9,11 +9,28 @@
     "lint": "eslint \"src/**/*.ts\" --fix"
   },
   "dependencies": {
-    "@nestjs/common": "^11.0.1",
-    "@nestjs/core": "^11.1.27",
-    "@nestjs/typeorm": "^11.0.1",
     "pg": "^8.21.0",
     "typeorm": "^1.0.0"
+  },
+  "peerDependencies": {
+    "@nestjs/common": "^11.0.1",
+    "@nestjs/config": "^4.0.4",
+    "@nestjs/core": "^11.0.1",
+    "@nestjs/typeorm": "^11.0.1"
+  },
+  "peerDependenciesMeta": {
+    "@nestjs/common": {
+      "optional": true
+    },
+    "@nestjs/config": {
+      "optional": true
+    },
+    "@nestjs/core": {
+      "optional": true
+    },
+    "@nestjs/typeorm": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "@boilerplate/eslint-config": "workspace:*",
